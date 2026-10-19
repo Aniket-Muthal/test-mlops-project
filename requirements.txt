@@ -1,0 +1,22 @@
+# Core ML and Data Preprocessing
+numpy
+pandas
+scikit-learn
+joblib
+
+# Configuration
+PyYAML
+python-box
+
+# MLOPs and Experiment tracking
+dvc[s3]
+mlflow
+dagshub
+
+# For notebook exploration n visualization
+matplotlib
+seaborn
+ipykernel
+
+# To install project/package in editable mode
+-e .
