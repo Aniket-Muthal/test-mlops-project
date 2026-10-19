@@ -1,0 +1,11 @@
+stages:
+  data_ingestion:
+    cmd: python -m lead_scoring.runners.ingestion_runner
+    deps:
+    - src/lead_scoring/components/data_ingestion.py
+    - src/lead_scoring/runners/ingestion_runner.py
+    params:
+    - data_ingestion.raw_data_path
+    - data_ingestion.source_data_url
+    outs:
+    - data/raw/raw_data.csv

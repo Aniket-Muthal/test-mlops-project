@@ -1,0 +1,23 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python -m lead_scoring.runners.ingestion_runner
+    deps:
+    - path: src/lead_scoring/components/data_ingestion.py
+      hash: md5
+      md5: 1935573697be3fb0bebf8ae8746cd1ce
+      size: 1687
+    - path: src/lead_scoring/runners/ingestion_runner.py
+      hash: md5
+      md5: e745812a85d7d801c76c5e48cc46fed9
+      size: 1294
+    params:
+      params.yaml:
+        data_ingestion.raw_data_path: data/raw/raw_data.csv
+        data_ingestion.source_data_url: 
+          https://raw.githubusercontent.com/Aniket-Muthal/datasets/refs/heads/main/ExtraaLearn.csv
+    outs:
+    - path: data/raw/raw_data.csv
+      hash: md5
+      md5: 0af49d480207eef26a2a2059e5563967
+      size: 385884
