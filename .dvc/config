@@ -3,3 +3,4 @@
 ['remote "origin"']
     url = s3://dvc
     endpointurl = https://dagshub.com/Aniket-Muthal/test-mlops-project.s3
+    allow_anonymous_login = true
