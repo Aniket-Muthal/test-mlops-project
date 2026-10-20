@@ -1,3 +1,66 @@
+# Data Ingestion parameters
 data_ingestion:
   source_data_url: "https://raw.githubusercontent.com/Aniket-Muthal/datasets/refs/heads/main/ExtraaLearn.csv"
   raw_data_path: "data/raw/raw_data.csv"
+
+# Data Validation parameters
+data_validation:
+  raw_data_path: "data/raw/raw_data.csv"
+  raw_val_report_path: "artifacts/data_validation/raw/validation_report.json"
+  raw_val_status_path: "artifacts/data_validation/raw/validation_status.txt"
+  # cleaned_val_report_path: "artifacts/data_validation/cleaned/validation_report.json"
+  # cleaned_val_status_path: "artifacts/data_validation/cleaned/validation_status.txt"
+  # processed_val_report_path: "artifacts/data_validation/processed/validation_report.json"
+  # processed_val_status_path: "artifacts/data_validation/processed/validation_status.txt"
+
+# Raw Data Validation
+raw_data_validation:
+  schema:
+    target_feature:
+      status: int64
+
+    features:
+      ID: object
+      age: int64
+      current_occupation: object
+      first_interaction: object
+      profile_completed: object
+      website_visits: int64
+      time_spent_on_website: int64
+      page_views_per_visit: float64
+      last_activity: object
+      print_media_type1: object
+      print_media_type2: object
+      digital_media: object
+      educational_channels: object
+      referral: object
+
+  valid_values:
+    current_occupation:
+      - 'Unemployed'
+      - 'Professional'
+      - 'Student'
+    first_interaction:
+      - 'Website'
+      - 'Mobile App'
+    profile_completed:
+      - 'High'
+      - 'Medium'
+      - 'Low'
+    last_activity:
+      - 'Website Activity'
+      - 'Email Activity'
+      - 'Phone Activity'
+    print_media_type1:
+      - 'Yes'
+      - 'No'
+    print_media_type2:
+      - 'Yes'
+      - 'No'
+    digital_media:
+      - 'Yes'
+      - 'No'
+    educational_channels:
+      - 'Yes'
+      - 'No'
+    

@@ -2,6 +2,8 @@ stages:
   data_ingestion:
     cmd: python -m lead_scoring.runners.ingestion_runner
     deps:
+    - src/lead_scoring/config/entity_config.py
+    - src/lead_scoring/config/configuration.py
     - src/lead_scoring/components/data_ingestion.py
     - src/lead_scoring/runners/ingestion_runner.py
     params:
@@ -9,3 +11,18 @@ stages:
     - data_ingestion.source_data_url
     outs:
     - data/raw/raw_data.csv
+
+  raw_data_validation:
+    cmd: python -m lead_scoring.runners.validation_runner --mode raw
+    deps:
+    - data/raw/raw_data.csv
+    - src/lead_scoring/config/entity_config.py
+    - src/lead_scoring/config/configuration.py
+    - src/lead_scoring/components/data_validation.py
+    - src/lead_scoring/runners/validation_runner.py
+    params:
+    - raw_data_validation.schema
+    - raw_data_validation.valid_values
+    outs:
+    - artifacts/data_validation/raw/validation_report.json
+    - artifacts/data_validation/raw/validation_status.txt

@@ -7,6 +7,14 @@ stages:
       hash: md5
       md5: 1935573697be3fb0bebf8ae8746cd1ce
       size: 1687
+    - path: src/lead_scoring/config/configuration.py
+      hash: md5
+      md5: 3bd8a975ed47138f185211231b95b8cf
+      size: 1671
+    - path: src/lead_scoring/config/entity_config.py
+      hash: md5
+      md5: e08d5eb2190be1f632cd8171c191f46d
+      size: 1002
     - path: src/lead_scoring/runners/ingestion_runner.py
       hash: md5
       md5: e745812a85d7d801c76c5e48cc46fed9
@@ -21,3 +29,83 @@ stages:
       hash: md5
       md5: 0af49d480207eef26a2a2059e5563967
       size: 385884
+  raw_data_validation:
+    cmd: python -m lead_scoring.runners.validation_runner --mode raw
+    deps:
+    - path: data/raw/raw_data.csv
+      hash: md5
+      md5: 0af49d480207eef26a2a2059e5563967
+      size: 385884
+    - path: src/lead_scoring/components/data_validation.py
+      hash: md5
+      md5: efca8ac45255bb99b76fc9f88c48fc8b
+      size: 11503
+    - path: src/lead_scoring/config/configuration.py
+      hash: md5
+      md5: 3bd8a975ed47138f185211231b95b8cf
+      size: 1671
+    - path: src/lead_scoring/config/entity_config.py
+      hash: md5
+      md5: e08d5eb2190be1f632cd8171c191f46d
+      size: 1002
+    - path: src/lead_scoring/runners/validation_runner.py
+      hash: md5
+      md5: 915e95f6c892a4e84d681da23e344461
+      size: 1649
+    params:
+      params.yaml:
+        raw_data_validation.schema:
+          target_feature:
+            status: int64
+          features:
+            ID: object
+            age: int64
+            current_occupation: object
+            first_interaction: object
+            profile_completed: object
+            website_visits: int64
+            time_spent_on_website: int64
+            page_views_per_visit: float64
+            last_activity: object
+            print_media_type1: object
+            print_media_type2: object
+            digital_media: object
+            educational_channels: object
+            referral: object
+        raw_data_validation.valid_values:
+          current_occupation:
+          - Unemployed
+          - Professional
+          - Student
+          first_interaction:
+          - Website
+          - Mobile App
+          profile_completed:
+          - High
+          - Medium
+          - Low
+          last_activity:
+          - Website Activity
+          - Email Activity
+          - Phone Activity
+          print_media_type1:
+          - Yes
+          - No
+          print_media_type2:
+          - Yes
+          - No
+          digital_media:
+          - Yes
+          - No
+          educational_channels:
+          - Yes
+          - No
+    outs:
+    - path: artifacts/data_validation/raw/validation_report.json
+      hash: md5
+      md5: 9243803ecf8296bf649e076b515f7615
+      size: 397
+    - path: artifacts/data_validation/raw/validation_status.txt
+      hash: md5
+      md5: 2a3ff836b4dd9d9c284343982b9cb26b
+      size: 22
