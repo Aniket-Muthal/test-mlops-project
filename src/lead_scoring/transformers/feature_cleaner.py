@@ -9,6 +9,7 @@ deterministic cleaning operations on the input dataset.
 
 
 import pandas as pd
+from pandas.api.types import is_string_dtype
 
 
 def clean_data(data: pd.DataFrame) -> pd.DataFrame:
@@ -34,9 +35,9 @@ def clean_data(data: pd.DataFrame) -> pd.DataFrame:
     clean_df = (
         data
         .apply(
-            lambda val: val.str.strip().str.lower()
-            if val.dtype == 'object'
-            else val
+            lambda col: col.str.strip().str.lower()
+            if is_string_dtype(col.dtype)
+            else col
         )
         .rename(columns={
             'current_occupation': 'occupation',

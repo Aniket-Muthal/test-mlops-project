@@ -36,6 +36,7 @@ stages:
     - src/lead_scoring/config/configuration.py
     - src/lead_scoring/components/data_cleaning.py
     - src/lead_scoring/runners/cleaning_runner.py
+    - src/lead_scoring/transformers/feature_cleaner.py
     params:
     - data_cleaning_split.random_state
     - data_cleaning_split.test_size
