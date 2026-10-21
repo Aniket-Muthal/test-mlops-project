@@ -22,7 +22,8 @@ class ConfigurationManager:
             [
                 Path(self.params.data_ingestion.raw_data_path).parent,
                 Path(self.params.data_validation.raw_val_report_path).parent,
-                Path(self.params.data_cleaning_split.cleaned_train_path).parent
+                Path(self.params.data_cleaning_split.cleaned_train_path).parent,
+                Path(self.params.data_validation.cleaned_val_report_path).parent
             ]
         )
 
@@ -42,13 +43,20 @@ class ConfigurationManager:
         config = self.params.data_validation
         schema = self.params.raw_data_validation.schema
         valid_values = self.params.raw_data_validation.valid_values
+        cleaned_schema = self.params.cleaned_data_validation.schema
+        cleaned_valid_values = self.params.cleaned_data_validation.valid_values
 
         data_validation_config = DataValidationConfig(
             raw_data_path=Path(config.raw_data_path),
             raw_val_report_path=Path(config.raw_val_report_path),
             raw_val_status_path=Path(config.raw_val_status_path),
             raw_schema=dict(schema),
-            valid_values=dict(valid_values)
+            valid_values=dict(valid_values),
+            cleaned_train_path=Path(config.cleaned_train_path),
+            cleaned_val_report_path=Path(config.cleaned_val_report_path),
+            cleaned_val_status_path=Path(config.cleaned_val_status_path),
+            cleaned_schema=dict(cleaned_schema),
+            cleaned_valid_values=dict(cleaned_valid_values)
         )
 
         return data_validation_config

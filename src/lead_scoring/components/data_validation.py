@@ -11,7 +11,7 @@ from lead_scoring.core.exception import CustomException
 from lead_scoring.config.entity_config import DataValidationConfig
 
 
-logger = get_logger(name='data_validation')
+logger = get_logger(name='data_validation', mode='a')
 
 class DataValidation:
     def __init__(self, config: DataValidationConfig, mode: str = "raw"):
@@ -24,10 +24,17 @@ class DataValidation:
             self.valid_values = self.config.valid_values
             self.report_file_path = self.config.raw_val_report_path
             self.status_file_path = self.config.raw_val_status_path
+
         elif self.mode == "cleaned":
-            raise NotImplementedError("Cleaned data validation not yet implementd.")
+            self.df_path = self.config.cleaned_train_path
+            self.schema = self.config.cleaned_schema
+            self.valid_values = self.config.cleaned_valid_values
+            self.report_file_path = self.config.cleaned_val_report_path
+            self.status_file_path = self.config.cleaned_val_status_path
+
         elif self.mode == "processed":
             raise NotImplementedError("Processed data validation not yet implemented.")
+        
         else:
             raise ValueError(f"Invalid mode={self.mode}. Expected 'raw', 'cleaned' or 'processed'.")
 
@@ -204,12 +211,21 @@ class DataValidation:
             logger.info("Categorical values validated.")
             logger.info("Numerical values validation started...")
 
-            numeric_checks = {
-                'age': (0, None),
-                'website_visits': (0, None),
-                'time_spent_on_website': (0, None),
-                'page_views_per_visit': (0, None)
-            }
+            if self.mode == "raw":
+                numeric_checks = {
+                    'age': (0, None),
+                    'website_visits': (0, None),
+                    'time_spent_on_website': (0, None),
+                    'page_views_per_visit': (0, None)
+                }
+
+            if self.mode == "cleaned":
+                numeric_checks = {
+                    'age': (0, None),
+                    'website_visits': (0, None),
+                    'web_time': (0, None),
+                    'page_views_per_visit': (0, None)
+                }
 
             for num_col, (min_value, max_value) in numeric_checks.items():
                 if num_col in self.df.columns:
@@ -251,9 +267,22 @@ class DataValidation:
             )
             logger.info("Hard fail evaluated.")
 
+            if self.mode == "cleaned":
+                logger.info("Evaluating 'soft fail - stage 1' boolean...")
+                soft_fail_stage1 = (
+                    any(v > 0 for v in self.report["numerical_issues"].values()) or  
+                    any(len(v) > 0 for v in self.report["categorical_issues"].values()) or
+                    self.report["duplicate_count"] > 0 or
+                    target_has_issues
+                )
+                logger.info("Soft fail I evaluated.")
+
             logger.info("Deciding validation gates based on mode...")
             if self.mode == "raw":
                 hard_fail = hard_fail
+            
+            if self.mode == "cleaned":
+                hard_fail = hard_fail or soft_fail_stage1
 
             validation_status = not hard_fail
 

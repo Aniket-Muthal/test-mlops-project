@@ -5,11 +5,18 @@ data_ingestion:
 
 # Data Validation parameters
 data_validation:
+  # Raw data validation
   raw_data_path: "data/raw/raw_data.csv"
   raw_val_report_path: "artifacts/data_validation/raw/validation_report.json"
   raw_val_status_path: "artifacts/data_validation/raw/validation_status.txt"
-  # cleaned_val_report_path: "artifacts/data_validation/cleaned/validation_report.json"
-  # cleaned_val_status_path: "artifacts/data_validation/cleaned/validation_status.txt"
+
+  # Cleaned data validation
+  cleaned_train_path: "data/cleaned/cleaned_train.csv"
+  cleaned_val_report_path: "artifacts/data_validation/cleaned/validation_report.json"
+  cleaned_val_status_path: "artifacts/data_validation/cleaned/validation_status.txt"
+
+  # Processed (Imputed) data validation
+  # imputed_train_path: "data/processed/imputed_train.csv"
   # processed_val_report_path: "artifacts/data_validation/processed/validation_report.json"
   # processed_val_status_path: "artifacts/data_validation/processed/validation_status.txt"
 
@@ -63,6 +70,9 @@ raw_data_validation:
     educational_channels:
       - 'Yes'
       - 'No'
+    referral:
+      - 'Yes'
+      - 'No'
 
 data_cleaning_split:
   raw_data_path: "data/raw/raw_data.csv"
@@ -72,3 +82,56 @@ data_cleaning_split:
   random_state: 28
   test_size: 0.2
   stratify_column: "status"
+
+cleaned_data_validation:
+  schema:
+    target_feature:
+      status: int64
+  
+    features:
+      id: object
+      age: int64
+      occupation: object
+      first_interaction: object
+      profile_completion_level: object
+      website_visits: int64
+      web_time: int64
+      page_views_per_visit: float64
+      last_interaction: object
+      newspaper_ad_exposure: object
+      magazine_ad_exposure: object
+      digital_ad_exposure: object
+      educational_forum_exposure: object
+      via_referral: object
+
+  valid_values:
+      occupation:
+        - 'unemployed'
+        - 'professional'
+        - 'student'
+      first_interaction:
+        - 'website'
+        - 'mobile app'
+      profile_completion_level:
+        - 'high'
+        - 'medium'
+        - 'low'
+      last_interaction:
+        - 'website activity'
+        - 'email activity'
+        - 'phone activity'
+      newspaper_ad_exposure:
+        - 'yes'
+        - 'no'
+      magazine_ad_exposure:
+        - 'yes'
+        - 'no'
+      digital_ad_exposure:
+        - 'yes'
+        - 'no'
+      educational_forum_exposure:
+        - 'yes'
+        - 'no'
+      via_referral:
+        - 'yes'
+        - 'no'

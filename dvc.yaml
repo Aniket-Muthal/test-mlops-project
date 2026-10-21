@@ -43,3 +43,18 @@ stages:
     outs:
     - data/cleaned/cleaned_train.csv
     - data/cleaned/cleaned_test.csv
+
+  cleaned_data_validation:
+    cmd: python -m lead_scoring.runners.validation_runner --mode cleaned
+    deps:
+    - data/cleaned/cleaned_train.csv
+    - src/lead_scoring/config/entity_config.py
+    - src/lead_scoring/config/configuration.py
+    - src/lead_scoring/components/data_validation.py
+    - src/lead_scoring/runners/validation_runner.py
+    params:
+    - cleaned_data_validation.schema
+    - cleaned_data_validation.valid_values
+    outs:
+    - artifacts/data_validation/cleaned/validation_report.json
+    - artifacts/data_validation/cleaned/validation_status.txt

@@ -28,8 +28,11 @@ class DataValidationConfig:
     raw_val_status_path: Path
     raw_schema: dict
     valid_values: dict
-    # cleaned_val_report_path: Path
-    # cleaned_val_status_path: Path
+    cleaned_train_path: Path
+    cleaned_val_report_path: Path
+    cleaned_val_status_path: Path
+    cleaned_schema: dict
+    cleaned_valid_values: dict
     # processed_val_report_path: Path
     # processed_val_status_path: Path
 

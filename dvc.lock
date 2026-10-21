@@ -9,12 +9,12 @@ stages:
       size: 1687
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 986476f00fe9d1dee2d36267555af3f5
-      size: 2408
+      md5: 5710b3183a974913c9d626167bcb1413
+      size: 2968
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: c000283ef87b8171df78dde459d3631a
-      size: 1450
+      md5: 4276aeee779510f4cdf6bf87b1a5bffb
+      size: 1534
     - path: src/lead_scoring/runners/ingestion_runner.py
       hash: md5
       md5: e745812a85d7d801c76c5e48cc46fed9
@@ -38,16 +38,16 @@ stages:
       size: 385884
     - path: src/lead_scoring/components/data_validation.py
       hash: md5
-      md5: efca8ac45255bb99b76fc9f88c48fc8b
-      size: 11503
+      md5: 130cc56e717a51b86deffa572c440193
+      size: 12731
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 986476f00fe9d1dee2d36267555af3f5
-      size: 2408
+      md5: 5710b3183a974913c9d626167bcb1413
+      size: 2968
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: c000283ef87b8171df78dde459d3631a
-      size: 1450
+      md5: 4276aeee779510f4cdf6bf87b1a5bffb
+      size: 1534
     - path: src/lead_scoring/runners/validation_runner.py
       hash: md5
       md5: 915e95f6c892a4e84d681da23e344461
@@ -100,6 +100,9 @@ stages:
           educational_channels:
           - Yes
           - No
+          referral:
+          - Yes
+          - No
     outs:
     - path: artifacts/data_validation/raw/validation_report.json
       hash: md5
@@ -126,12 +129,12 @@ stages:
       size: 3624
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 986476f00fe9d1dee2d36267555af3f5
-      size: 2408
+      md5: 5710b3183a974913c9d626167bcb1413
+      size: 2968
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: c000283ef87b8171df78dde459d3631a
-      size: 1450
+      md5: 4276aeee779510f4cdf6bf87b1a5bffb
+      size: 1534
     - path: src/lead_scoring/runners/cleaning_runner.py
       hash: md5
       md5: d47e8082ce1488649a7bdfc3c71d2f4e
@@ -153,3 +156,86 @@ stages:
       hash: md5
       md5: 9d5e4f909f19cabcea65e1ad8ddde9bf
       size: 308801
+  cleaned_data_validation:
+    cmd: python -m lead_scoring.runners.validation_runner --mode cleaned
+    deps:
+    - path: data/cleaned/cleaned_train.csv
+      hash: md5
+      md5: 9d5e4f909f19cabcea65e1ad8ddde9bf
+      size: 308801
+    - path: src/lead_scoring/components/data_validation.py
+      hash: md5
+      md5: 130cc56e717a51b86deffa572c440193
+      size: 12731
+    - path: src/lead_scoring/config/configuration.py
+      hash: md5
+      md5: 5710b3183a974913c9d626167bcb1413
+      size: 2968
+    - path: src/lead_scoring/config/entity_config.py
+      hash: md5
+      md5: 4276aeee779510f4cdf6bf87b1a5bffb
+      size: 1534
+    - path: src/lead_scoring/runners/validation_runner.py
+      hash: md5
+      md5: 915e95f6c892a4e84d681da23e344461
+      size: 1649
+    params:
+      params.yaml:
+        cleaned_data_validation.schema:
+          target_feature:
+            status: int64
+          features:
+            id: object
+            age: int64
+            occupation: object
+            first_interaction: object
+            profile_completion_level: object
+            website_visits: int64
+            web_time: int64
+            page_views_per_visit: float64
+            last_interaction: object
+            newspaper_ad_exposure: object
+            magazine_ad_exposure: object
+            digital_ad_exposure: object
+            educational_forum_exposure: object
+            via_referral: object
+        cleaned_data_validation.valid_values:
+          occupation:
+          - unemployed
+          - professional
+          - student
+          first_interaction:
+          - website
+          - mobile app
+          profile_completion_level:
+          - high
+          - medium
+          - low
+          last_interaction:
+          - website activity
+          - email activity
+          - phone activity
+          newspaper_ad_exposure:
+          - yes
+          - no
+          magazine_ad_exposure:
+          - yes
+          - no
+          digital_ad_exposure:
+          - yes
+          - no
+          educational_forum_exposure:
+          - yes
+          - no
+          via_referral:
+          - yes
+          - no
+    outs:
+    - path: artifacts/data_validation/cleaned/validation_report.json
+      hash: md5
+      md5: 662ee024ffaddd79066211f0ed0b1930
+      size: 401
+    - path: artifacts/data_validation/cleaned/validation_status.txt
+      hash: md5
+      md5: 2a3ff836b4dd9d9c284343982b9cb26b
+      size: 22
