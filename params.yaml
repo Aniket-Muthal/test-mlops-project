@@ -63,4 +63,12 @@ raw_data_validation:
     educational_channels:
       - 'Yes'
       - 'No'
-    
+
+data_cleaning_split:
+  raw_data_path: "data/raw/raw_data.csv"
+  raw_val_status_path: "artifacts/data_validation/raw/validation_status.txt"
+  cleaned_train_path: "data/cleaned/cleaned_train.csv"
+  cleaned_test_path: "data/cleaned/cleaned_test.csv"
+  random_state: 28
+  test_size: 0.2
+  stratify_column: "status"

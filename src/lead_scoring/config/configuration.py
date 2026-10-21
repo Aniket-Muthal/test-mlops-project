@@ -8,7 +8,8 @@ Central configuration manager for the lead scoring MLOps pipeline.
 from pathlib import Path
 from lead_scoring.utils.data_io import load_yaml, create_directories
 from lead_scoring.config.entity_config import (
-    DataIngestionConfig, DataValidationConfig
+    DataIngestionConfig, DataValidationConfig,
+    DataCleaningConfig
 )
 
 
@@ -20,7 +21,8 @@ class ConfigurationManager:
         create_directories(
             [
                 Path(self.params.data_ingestion.raw_data_path).parent,
-                Path(self.params.data_validation.raw_val_report_path).parent
+                Path(self.params.data_validation.raw_val_report_path).parent,
+                Path(self.params.data_cleaning_split.cleaned_train_path).parent
             ]
         )
 
@@ -50,3 +52,19 @@ class ConfigurationManager:
         )
 
         return data_validation_config
+
+
+    def get_data_cleaning_config(self) -> DataCleaningConfig:
+        config = self.params.data_cleaning_split
+
+        data_cleaning_config = DataCleaningConfig(
+            raw_data_path=Path(config.raw_data_path),
+            raw_val_status_path=Path(config.raw_val_status_path),
+            cleaned_train_path=Path(config.cleaned_train_path),
+            cleaned_test_path=Path(config.cleaned_test_path),
+            random_state=int(config.random_state),
+            test_size=float(config.test_size),
+            stratify_column=str(config.stratify_column)
+        )
+
+        return data_cleaning_config

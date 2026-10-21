@@ -32,4 +32,21 @@ class DataValidationConfig:
     # cleaned_val_status_path: Path
     # processed_val_report_path: Path
     # processed_val_status_path: Path
-    
+
+
+@dataclass(frozen=True)
+class DataCleaningConfig:
+    """
+    Configuration for data cleaning and split stage.
+
+    Defines paths to load data from and to save it
+    to desired directory. Also holds parameters
+    necessary for data splitting.
+    """
+    raw_data_path: Path
+    raw_val_status_path: Path
+    cleaned_train_path: Path
+    cleaned_test_path: Path
+    random_state: int
+    test_size: float
+    stratify_column: str

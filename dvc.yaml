@@ -26,3 +26,19 @@ stages:
     outs:
     - artifacts/data_validation/raw/validation_report.json
     - artifacts/data_validation/raw/validation_status.txt
+
+  data_cleaning:
+    cmd: python -m lead_scoring.runners.cleaning_runner
+    deps:
+    - data/raw/raw_data.csv
+    - artifacts/data_validation/raw/validation_status.txt
+    - src/lead_scoring/config/entity_config.py
+    - src/lead_scoring/config/configuration.py
+    - src/lead_scoring/components/data_cleaning.py
+    - src/lead_scoring/runners/cleaning_runner.py
+    params:
+    - data_cleaning_split.random_state
+    - data_cleaning_split.test_size
+    outs:
+    - data/cleaned/cleaned_train.csv
+    - data/cleaned/cleaned_test.csv
