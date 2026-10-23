@@ -58,3 +58,31 @@ stages:
     outs:
     - artifacts/data_validation/cleaned/validation_report.json
     - artifacts/data_validation/cleaned/validation_status.txt
+
+  data_transformation:
+    cmd: python -m lead_scoring.runners.transformation_runner
+    deps:
+    - data/cleaned/cleaned_train.csv
+    - data/cleaned/cleaned_test.csv
+    - artifacts/data_validation/cleaned/validation_status.txt
+    - src/lead_scoring/config/entity_config.py
+    - src/lead_scoring/config/configuration.py
+    - src/lead_scoring/transformers/feature_preprocessor.py
+    - src/lead_scoring/components/data_transformation.py
+    - src/lead_scoring/runners/transformation_runner.py
+    params:
+    - data_transformation.target_column
+    - data_transformation.columns_to_drop
+    - data_transformation.numerical_imputation_strategy
+    - data_transformation.categorical_imputation_strategy
+    - data_transformation.one_hot_encoder.sparse_output
+    - data_transformation.one_hot_encoder.handle_unknown
+    - data_transformation.one_hot_encoder.drop
+    - data_transformation.numerical_features
+    - data_transformation.categorical_features
+    outs:
+    - data/processed/processed_train.csv
+    - data/processed/processed_test.csv
+    - data/transformed/transformed_train.csv
+    - data/transformed/transformed_test.csv
+    - artifacts/transformers/feature_preprocessor.joblib

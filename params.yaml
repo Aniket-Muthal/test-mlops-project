@@ -135,3 +135,41 @@ cleaned_data_validation:
       via_referral:
         - 'yes'
         - 'no'
+
+data_transformation:
+  cleaned_val_status_path: "artifacts/data_validation/cleaned/validation_status.txt"
+  cleaned_train_path: "data/cleaned/cleaned_train.csv"
+  cleaned_test_path: "data/cleaned/cleaned_test.csv"
+  processed_train_path: "data/processed/processed_train.csv"
+  processed_test_path: "data/processed/processed_test.csv"
+  transformed_train_path: "data/transformed/transformed_train.csv"
+  transformed_test_path: "data/transformed/transformed_test.csv"
+  preprocessor_path: "artifacts/transformers/feature_preprocessor.joblib"
+
+  target_column: status
+  columns_to_drop: id
+
+  numerical_imputation_strategy: median
+  categorical_imputation_strategy: most_frequent
+
+  one_hot_encoder:
+    sparse_output: false
+    handle_unknown: ignore
+    drop: first
+
+  numerical_features:
+    - age
+    - website_visits
+    - web_time
+    - page_views_per_visit
+  
+  categorical_features:
+    - occupation
+    - first_interaction
+    - profile_completion_level
+    - last_interaction
+    - newspaper_ad_exposure
+    - magazine_ad_exposure
+    - digital_ad_exposure
+    - educational_forum_exposure
+    - via_referral

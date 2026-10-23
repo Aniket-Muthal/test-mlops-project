@@ -9,12 +9,12 @@ stages:
       size: 1687
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 5710b3183a974913c9d626167bcb1413
-      size: 2968
+      md5: 5e53c3db332afdbb817a159f0631487e
+      size: 4522
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: 4276aeee779510f4cdf6bf87b1a5bffb
-      size: 1534
+      md5: bce0208daf52919fee42c2cd3b873d20
+      size: 2191
     - path: src/lead_scoring/runners/ingestion_runner.py
       hash: md5
       md5: e745812a85d7d801c76c5e48cc46fed9
@@ -42,12 +42,12 @@ stages:
       size: 12731
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 5710b3183a974913c9d626167bcb1413
-      size: 2968
+      md5: 5e53c3db332afdbb817a159f0631487e
+      size: 4522
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: 4276aeee779510f4cdf6bf87b1a5bffb
-      size: 1534
+      md5: bce0208daf52919fee42c2cd3b873d20
+      size: 2191
     - path: src/lead_scoring/runners/validation_runner.py
       hash: md5
       md5: 915e95f6c892a4e84d681da23e344461
@@ -129,16 +129,16 @@ stages:
       size: 3624
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 5710b3183a974913c9d626167bcb1413
-      size: 2968
+      md5: 5e53c3db332afdbb817a159f0631487e
+      size: 4522
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: 4276aeee779510f4cdf6bf87b1a5bffb
-      size: 1534
+      md5: bce0208daf52919fee42c2cd3b873d20
+      size: 2191
     - path: src/lead_scoring/runners/cleaning_runner.py
       hash: md5
-      md5: d47e8082ce1488649a7bdfc3c71d2f4e
-      size: 1348
+      md5: b80e6460c85b9ddb2ed0923659a43cf8
+      size: 1813
     - path: src/lead_scoring/transformers/feature_cleaner.py
       hash: md5
       md5: 8d07b7f34ab4484e7006187e97dd8a3d
@@ -169,12 +169,12 @@ stages:
       size: 12731
     - path: src/lead_scoring/config/configuration.py
       hash: md5
-      md5: 5710b3183a974913c9d626167bcb1413
-      size: 2968
+      md5: 5e53c3db332afdbb817a159f0631487e
+      size: 4522
     - path: src/lead_scoring/config/entity_config.py
       hash: md5
-      md5: 4276aeee779510f4cdf6bf87b1a5bffb
-      size: 1534
+      md5: bce0208daf52919fee42c2cd3b873d20
+      size: 2191
     - path: src/lead_scoring/runners/validation_runner.py
       hash: md5
       md5: 915e95f6c892a4e84d681da23e344461
@@ -239,3 +239,83 @@ stages:
       hash: md5
       md5: 2a3ff836b4dd9d9c284343982b9cb26b
       size: 22
+  data_transformation:
+    cmd: python -m lead_scoring.runners.transformation_runner
+    deps:
+    - path: artifacts/data_validation/cleaned/validation_status.txt
+      hash: md5
+      md5: 2a3ff836b4dd9d9c284343982b9cb26b
+      size: 22
+    - path: data/cleaned/cleaned_test.csv
+      hash: md5
+      md5: f54ef8cba5d2af3faea5dbc78f3dad85
+      size: 77329
+    - path: data/cleaned/cleaned_train.csv
+      hash: md5
+      md5: 9d5e4f909f19cabcea65e1ad8ddde9bf
+      size: 308801
+    - path: src/lead_scoring/components/data_transformation.py
+      hash: md5
+      md5: 464658edfb3fa33d0244b20cfc0707fe
+      size: 10502
+    - path: src/lead_scoring/config/configuration.py
+      hash: md5
+      md5: 5e53c3db332afdbb817a159f0631487e
+      size: 4522
+    - path: src/lead_scoring/config/entity_config.py
+      hash: md5
+      md5: bce0208daf52919fee42c2cd3b873d20
+      size: 2191
+    - path: src/lead_scoring/runners/transformation_runner.py
+      hash: md5
+      md5: ad6288609916c543b70a36cd1af5003f
+      size: 1884
+    - path: src/lead_scoring/transformers/feature_preprocessor.py
+      hash: md5
+      md5: 357b2e15a935102f43a5385bdf45e117
+      size: 7621
+    params:
+      params.yaml:
+        data_transformation.categorical_features:
+        - occupation
+        - first_interaction
+        - profile_completion_level
+        - last_interaction
+        - newspaper_ad_exposure
+        - magazine_ad_exposure
+        - digital_ad_exposure
+        - educational_forum_exposure
+        - via_referral
+        data_transformation.categorical_imputation_strategy: most_frequent
+        data_transformation.columns_to_drop: id
+        data_transformation.numerical_features:
+        - age
+        - website_visits
+        - web_time
+        - page_views_per_visit
+        data_transformation.numerical_imputation_strategy: median
+        data_transformation.one_hot_encoder.drop: first
+        data_transformation.one_hot_encoder.handle_unknown: ignore
+        data_transformation.one_hot_encoder.sparse_output: false
+        data_transformation.target_column: status
+    outs:
+    - path: artifacts/transformers/feature_preprocessor.joblib
+      hash: md5
+      md5: e0f40686f411acc1d79e80b3e4b3a29c
+      size: 9331
+    - path: data/processed/processed_test.csv
+      hash: md5
+      md5: 7ad808e906370af19f9fd51ab9a78d52
+      size: 82867
+    - path: data/processed/processed_train.csv
+      hash: md5
+      md5: 8427ac926c36a795f229b4cf955c8552
+      size: 330935
+    - path: data/transformed/transformed_test.csv
+      hash: md5
+      md5: aa6d93ecbcb14f58afdee34047f8c60c
+      size: 127300
+    - path: data/transformed/transformed_train.csv
+      hash: md5
+      md5: 27b5ba580b4213a0197e6bfc6b15e6e5
+      size: 507576

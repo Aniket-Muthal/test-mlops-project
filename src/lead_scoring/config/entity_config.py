@@ -53,3 +53,28 @@ class DataCleaningConfig:
     random_state: int
     test_size: float
     stratify_column: str
+
+
+@dataclass(frozen=True)
+class DataTransformationConfig:
+    """
+    Configuration for data preprocessing
+        - Imputation
+        - Encoding
+        - Scaling
+    """
+    cleaned_val_status_path: Path
+    cleaned_train_path: Path
+    cleaned_test_path: Path
+    processed_train_path: Path
+    processed_test_path: Path
+    transformed_train_path: Path
+    transformed_test_path: Path
+    preprocessor_path: Path
+    target_column: str
+    columns_to_drop: str
+    numerical_imputation_strategy: str
+    categorical_imputation_strategy: str
+    one_hot_encoder: dict
+    numerical_features: list
+    categorical_features: list

@@ -9,7 +9,7 @@ from pathlib import Path
 from lead_scoring.utils.data_io import load_yaml, create_directories
 from lead_scoring.config.entity_config import (
     DataIngestionConfig, DataValidationConfig,
-    DataCleaningConfig
+    DataCleaningConfig, DataTransformationConfig
 )
 
 
@@ -23,7 +23,10 @@ class ConfigurationManager:
                 Path(self.params.data_ingestion.raw_data_path).parent,
                 Path(self.params.data_validation.raw_val_report_path).parent,
                 Path(self.params.data_cleaning_split.cleaned_train_path).parent,
-                Path(self.params.data_validation.cleaned_val_report_path).parent
+                Path(self.params.data_validation.cleaned_val_report_path).parent,
+                Path(self.params.data_transformation.processed_train_path).parent,
+                Path(self.params.data_transformation.transformed_train_path).parent,
+                Path(self.params.data_transformation.preprocessor_path).parent
             ]
         )
 
@@ -76,3 +79,27 @@ class ConfigurationManager:
         )
 
         return data_cleaning_config
+
+
+    def get_data_transformation_config(self) -> DataTransformationConfig:
+        config = self.params.data_transformation
+
+        data_transformation_config = DataTransformationConfig(
+            cleaned_val_status_path=Path(config.cleaned_val_status_path),
+            cleaned_train_path=Path(config.cleaned_train_path),
+            cleaned_test_path=Path(config.cleaned_test_path),
+            processed_train_path=Path(config.processed_train_path),
+            processed_test_path=Path(config.processed_test_path),
+            transformed_train_path=Path(config.transformed_train_path),
+            transformed_test_path=Path(config.transformed_test_path),
+            preprocessor_path=Path(config.preprocessor_path),
+            target_column=str(config.target_column),
+            columns_to_drop=str(config.columns_to_drop),
+            numerical_imputation_strategy=str(config.numerical_imputation_strategy),
+            categorical_imputation_strategy=str(config.categorical_imputation_strategy),
+            one_hot_encoder=dict(config.one_hot_encoder),
+            numerical_features=list(config.numerical_features),
+            categorical_features=list(config.categorical_features)
+        )
+
+        return data_transformation_config
